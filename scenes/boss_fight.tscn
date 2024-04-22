@@ -1,0 +1,143 @@
+[gd_scene load_steps=13 format=3 uid="uid://8alvmpkjbmlb"]
+
+[ext_resource type="Script" path="res://scripts/boss_fight.gd" id="1_dw7fa"]
+[ext_resource type="Texture2D" uid="uid://bxlum5si0an1" path="res://assets/bg.png" id="1_xamkq"]
+[ext_resource type="PackedScene" uid="uid://bkm8f21avut3v" path="res://scenes/rain.tscn" id="2_t45ds"]
+[ext_resource type="PackedScene" uid="uid://ddkvyt3k7veat" path="res://scenes/player_flying.tscn" id="3_6lslh"]
+[ext_resource type="PackedScene" uid="uid://b5yb4kloe7er8" path="res://scenes/boss.tscn" id="4_hejs2"]
+[ext_resource type="AudioStream" uid="uid://8pqbxnjl3tit" path="res://assets/rain_noise.mp3" id="6_gyvo6"]
+[ext_resource type="AudioStream" uid="uid://86hhllg7jlm4" path="res://assets/rust_noise.mp3" id="7_jy47s"]
+[ext_resource type="Texture2D" uid="uid://drloutyphdrrl" path="res://assets/press_space.png" id="8_uvuck"]
+[ext_resource type="AudioStream" uid="uid://eyjyn7nwjugm" path="res://assets/boss_music.mp3" id="9_ipkag"]
+
+[sub_resource type="Environment" id="Environment_msyl4"]
+background_mode = 3
+glow_enabled = true
+glow_bloom = 0.07
+glow_blend_mode = 0
+
+[sub_resource type="Animation" id="Animation_3pox5"]
+resource_name = "rust_fail_animation"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("rust_fail:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.717647, 0.419608, 0.207843, 0), Color(0.717647, 0.419608, 0.207843, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gilw4"]
+_data = {
+"rust_fail_animation": SubResource("Animation_3pox5")
+}
+
+[node name="boss_fight" type="Node2D"]
+script = ExtResource("1_dw7fa")
+
+[node name="parallax_background" type="ParallaxBackground" parent="."]
+layer = -1
+scroll_ignore_camera_zoom = true
+
+[node name="parallax_layer_1" type="ParallaxLayer" parent="parallax_background"]
+motion_scale = Vector2(0.73, 0)
+
+[node name="background" type="Sprite2D" parent="parallax_background/parallax_layer_1"]
+position = Vector2(310.875, 187.5)
+scale = Vector2(214.641, 151.938)
+texture = ExtResource("1_xamkq")
+
+[node name="rain" parent="parallax_background/parallax_layer_1" instance=ExtResource("2_t45ds")]
+visible = false
+position = Vector2(320, -73)
+
+[node name="player_flying" parent="." instance=ExtResource("3_6lslh")]
+position = Vector2(319, 260)
+
+[node name="boss" parent="." instance=ExtResource("4_hejs2")]
+position = Vector2(319, 110)
+
+[node name="boss_fight_camera" type="Camera2D" parent="."]
+position = Vector2(320, 180)
+zoom = Vector2(2, 2)
+process_callback = 0
+
+[node name="boss_fight_environment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_msyl4")
+
+[node name="rain_noise" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(320, -73)
+stream = ExtResource("6_gyvo6")
+volume_db = -23.0
+autoplay = true
+
+[node name="spike_timer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.23
+one_shot = true
+
+[node name="shake_timer_1" type="Timer" parent="."]
+process_callback = 0
+wait_time = 4.6
+one_shot = true
+autostart = true
+
+[node name="shake_timer_2" type="Timer" parent="."]
+process_callback = 0
+wait_time = 6.9
+one_shot = true
+autostart = true
+
+[node name="shake_timer_3" type="Timer" parent="."]
+process_callback = 0
+wait_time = 9.2
+one_shot = true
+autostart = true
+
+[node name="shake_timer_4" type="Timer" parent="."]
+process_callback = 0
+wait_time = 11.5
+one_shot = true
+autostart = true
+
+[node name="rust_emitter" type="Sprite2D" parent="."]
+position = Vector2(319, 110)
+
+[node name="rust_noise" type="AudioStreamPlayer2D" parent="rust_emitter"]
+position = Vector2(-319, -110)
+stream = ExtResource("7_jy47s")
+volume_db = -23.0
+autoplay = true
+
+[node name="press_space" type="Sprite2D" parent="."]
+position = Vector2(327, 180)
+texture = ExtResource("8_uvuck")
+
+[node name="boss_music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_ipkag")
+volume_db = -7.3
+autoplay = true
+
+[node name="fail_timer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 20.0
+one_shot = true
+autostart = true
+
+[node name="rust_fail" type="ColorRect" parent="."]
+z_index = 4096
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0.717647, 0.419608, 0.207843, 0)
+
+[node name="rust_fail_animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_gilw4")
+}
+speed_scale = 0.25
+
+[connection signal="animation_finished" from="rust_fail_animation" to="." method="_on_rust_fail_animation_animation_finished"]

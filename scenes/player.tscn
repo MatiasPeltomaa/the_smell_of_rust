@@ -1,0 +1,71 @@
+[gd_scene load_steps=8 format=3 uid="uid://pewup30uexh8"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_pn3bw"]
+[ext_resource type="Texture2D" uid="uid://bo0pgx13ahgu0" path="res://assets/player_sprite.png" id="2_n1ouf"]
+[ext_resource type="Texture2D" uid="uid://c2goquaqqff3n" path="res://assets/grass_particle.png" id="3_w74bh"]
+[ext_resource type="Texture2D" uid="uid://bwlhef2ncvme2" path="res://assets/water_particle.png" id="4_hh2l1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rjikk"]
+size = Vector2(2, 2)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ilimc"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 23.0
+initial_velocity_max = 23.0
+gravity = Vector3(0, 98, 0)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qisry"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 23.0
+initial_velocity_max = 23.0
+gravity = Vector3(0, 98, 0)
+
+[node name="player" type="CharacterBody2D"]
+script = ExtResource("1_pn3bw")
+
+[node name="player_sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_n1ouf")
+
+[node name="player_collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_rjikk")
+
+[node name="player_camera" type="Camera2D" parent="."]
+ignore_rotation = false
+zoom = Vector2(4, 4)
+process_callback = 0
+limit_left = 0
+limit_top = 0
+limit_right = 640
+limit_bottom = 360
+limit_smoothed = true
+position_smoothing_enabled = true
+position_smoothing_speed = 7.3
+rotation_smoothing_speed = 2.3
+
+[node name="grass_particle" type="GPUParticles2D" parent="."]
+position = Vector2(0, 2)
+emitting = false
+amount = 7
+process_material = SubResource("ParticleProcessMaterial_ilimc")
+texture = ExtResource("3_w74bh")
+lifetime = 0.23
+
+[node name="reflection_sprite" type="Sprite2D" parent="."]
+visible = false
+self_modulate = Color(0.717647, 0.419608, 0.207843, 1)
+position = Vector2(-4, -1)
+texture = ExtResource("2_n1ouf")
+
+[node name="water_particle" type="GPUParticles2D" parent="."]
+position = Vector2(0, -1)
+emitting = false
+amount = 3
+process_material = SubResource("ParticleProcessMaterial_qisry")
+texture = ExtResource("4_hh2l1")
+lifetime = 0.23
+explosiveness = 1.0
+randomness = 1.0

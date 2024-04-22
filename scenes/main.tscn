@@ -1,0 +1,198 @@
+[gd_scene load_steps=25 format=3 uid="uid://c0gn36moemqi8"]
+
+[ext_resource type="Texture2D" uid="uid://bxlum5si0an1" path="res://assets/bg.png" id="1_1kabc"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_3xl68"]
+[ext_resource type="Texture2D" uid="uid://b137wbw6csr57" path="res://assets/the_smell_of.png" id="3_v0ay8"]
+[ext_resource type="Texture2D" uid="uid://b2slkv4en8ukf" path="res://assets/rust.png" id="4_vvk1r"]
+[ext_resource type="Texture2D" uid="uid://du4djw5xjaw5s" path="res://assets/press_any_key.png" id="5_82jnk"]
+[ext_resource type="AudioStream" uid="uid://cfqwfd75k8uu1" path="res://assets/menu_music.mp3" id="7_8472j"]
+[ext_resource type="Texture2D" uid="uid://bt3wrd6514a3u" path="res://assets/JamSmall.png" id="7_s57rr"]
+[ext_resource type="Texture2D" uid="uid://dl7ksd2tskwgo" path="res://assets/controls.png" id="8_kyevy"]
+[ext_resource type="Texture2D" uid="uid://bebuab264wjn0" path="res://assets/credit_sheet.png" id="9_ca2tu"]
+
+[sub_resource type="Environment" id="Environment_p8ehq"]
+background_mode = 3
+glow_enabled = true
+glow_bloom = 0.07
+glow_blend_mode = 0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_j48wt"]
+load_path = "res://.godot/imported/player_sprite.png-a3952e8e3f763fc9ba912798959301c4.ctex"
+
+[sub_resource type="Animation" id="Animation_i5fe2"]
+resource_name = "rust_text"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("menu_rust:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qxd7o"]
+_data = {
+"rust_text": SubResource("Animation_i5fe2")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tvpey"]
+atlas = ExtResource("9_ca2tu")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j7n7y"]
+atlas = ExtResource("9_ca2tu")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n5v6n"]
+atlas = ExtResource("9_ca2tu")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t4rs7"]
+atlas = ExtResource("9_ca2tu")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k8sal"]
+atlas = ExtResource("9_ca2tu")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_23tf5"]
+atlas = ExtResource("9_ca2tu")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2t1te"]
+atlas = ExtResource("9_ca2tu")
+region = Rect2(768, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x2upd"]
+atlas = ExtResource("9_ca2tu")
+region = Rect2(896, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_evh38"]
+atlas = ExtResource("9_ca2tu")
+region = Rect2(1024, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nnm83"]
+atlas = ExtResource("9_ca2tu")
+region = Rect2(1152, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0k2l7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tvpey")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j7n7y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n5v6n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t4rs7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k8sal")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_23tf5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2t1te")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x2upd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_evh38")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nnm83")
+}],
+"loop": true,
+"name": &"credits",
+"speed": 10.0
+}]
+
+[node name="main" type="Node"]
+script = ExtResource("1_3xl68")
+
+[node name="menu_environment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_p8ehq")
+
+[node name="background" type="Sprite2D" parent="."]
+position = Vector2(320, 180)
+scale = Vector2(40, 22.5)
+texture = ExtResource("1_1kabc")
+
+[node name="gamejam_logo" type="Sprite2D" parent="."]
+position = Vector2(243.5, 228)
+scale = Vector2(0.025, 0.025)
+texture = ExtResource("7_s57rr")
+
+[node name="menu_player" type="Sprite2D" parent="."]
+position = Vector2(317, 190)
+texture = SubResource("CompressedTexture2D_j48wt")
+
+[node name="menu_camera" type="Camera2D" parent="."]
+position = Vector2(317, 190)
+zoom = Vector2(4, 4)
+
+[node name="menu_text" type="Sprite2D" parent="."]
+position = Vector2(306, 160)
+texture = ExtResource("3_v0ay8")
+
+[node name="menu_rust" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(361, 160)
+texture = ExtResource("4_vvk1r")
+
+[node name="menu_rust_animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_qxd7o")
+}
+speed_scale = 0.23
+
+[node name="menu_press_any" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(317, 176)
+scale = Vector2(0.23, 0.23)
+texture = ExtResource("5_82jnk")
+
+[node name="press_any_timer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[node name="menu_music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_8472j")
+volume_db = -7.3
+autoplay = true
+
+[node name="press_any_repeat_timer" type="Timer" parent="."]
+process_callback = 0
+
+[node name="buffer_timer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 2.3
+one_shot = true
+autostart = true
+
+[node name="menu_controls" type="Sprite2D" parent="."]
+position = Vector2(317, 210)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("8_kyevy")
+
+[node name="menu_credits" type="AnimatedSprite2D" parent="."]
+position = Vector2(389, 227)
+scale = Vector2(0.125, 0.125)
+sprite_frames = SubResource("SpriteFrames_0k2l7")
+animation = &"credits"
+
+[connection signal="timeout" from="press_any_timer" to="." method="_on_press_any_timer_timeout"]
+[connection signal="timeout" from="press_any_repeat_timer" to="." method="_on_press_any_repeat_timer_timeout"]
+[connection signal="timeout" from="buffer_timer" to="." method="_on_buffer_timer_timeout"]

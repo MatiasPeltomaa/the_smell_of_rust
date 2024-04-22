@@ -1,0 +1,147 @@
+[gd_scene load_steps=20 format=3 uid="uid://b5yb4kloe7er8"]
+
+[ext_resource type="Texture2D" uid="uid://yv1vm30se0vl" path="res://assets/boss_sprite_sheet.png" id="1_e6kwj"]
+[ext_resource type="Script" path="res://scripts/boss.gd" id="1_oelrg"]
+[ext_resource type="Texture2D" uid="uid://d06btr87stxat" path="res://assets/boss_particle.png" id="3_r84ie"]
+[ext_resource type="AudioStream" uid="uid://yke4u8p45c8m" path="res://assets/damage_sound.mp3" id="4_5phkx"]
+
+[sub_resource type="Gradient" id="Gradient_pt56n"]
+colors = PackedColorArray(0.717647, 0.419608, 0.207843, 1, 0.717647, 0.419608, 0.207843, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_d38f3"]
+gradient = SubResource("Gradient_pt56n")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eq1ev"]
+atlas = ExtResource("1_e6kwj")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mm4lx"]
+atlas = ExtResource("1_e6kwj")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fu7me"]
+atlas = ExtResource("1_e6kwj")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kvds7"]
+atlas = ExtResource("1_e6kwj")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_njrts"]
+atlas = ExtResource("1_e6kwj")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i8dru"]
+atlas = ExtResource("1_e6kwj")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jsdpk"]
+atlas = ExtResource("1_e6kwj")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_het7p"]
+atlas = ExtResource("1_e6kwj")
+region = Rect2(112, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kvoqn"]
+atlas = ExtResource("1_e6kwj")
+region = Rect2(128, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pnxyg"]
+atlas = ExtResource("1_e6kwj")
+region = Rect2(144, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sleyg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eq1ev")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mm4lx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fu7me")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kvds7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_njrts")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i8dru")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jsdpk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_het7p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kvoqn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pnxyg")
+}],
+"loop": true,
+"name": &"boss_idle",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_01wei"]
+radius = 6.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6gdeo"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(16, 1, 1)
+emission_shape = 1
+emission_sphere_radius = 1.0
+gravity = Vector3(0, 98, 0)
+
+[node name="boss" type="Node2D"]
+z_index = 4096
+script = ExtResource("1_oelrg")
+
+[node name="boss_rust_gradient" type="TextureRect" parent="."]
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 192.0
+offset_bottom = 192.0
+scale = Vector2(0.5, 0.5)
+texture = SubResource("GradientTexture2D_d38f3")
+metadata/_edit_use_anchors_ = true
+
+[node name="boss_sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_sleyg")
+animation = &"boss_idle"
+
+[node name="boss_area" type="Area2D" parent="."]
+
+[node name="boss_collision" type="CollisionShape2D" parent="boss_area"]
+shape = SubResource("CircleShape2D_01wei")
+
+[node name="cooldown" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.73
+one_shot = true
+
+[node name="boss_bullet_spawn" type="Marker2D" parent="."]
+position = Vector2(0, -16)
+
+[node name="boss_particles" type="GPUParticles2D" parent="."]
+z_index = -1
+position = Vector2(0, -13)
+amount = 23
+process_material = SubResource("ParticleProcessMaterial_6gdeo")
+texture = ExtResource("3_r84ie")
+lifetime = 0.73
+
+[node name="damage_sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_5phkx")
+volume_db = -7.3
+
+[connection signal="area_entered" from="boss_area" to="." method="_on_boss_area_area_entered"]
